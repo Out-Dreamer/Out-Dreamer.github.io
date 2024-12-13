@@ -2,96 +2,51 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Improve Cross-Architecture Generalization on Dataset Distillation</title>
-<link href="./files/style.css" rel="stylesheet">
-<script type="text/javascript" src="./files/jquery.mlens-1.0.min.js"></script> 
-<script type="text/javascript" src="./files/jquery.js"></script>
+<link href="./assets/style.css" rel="stylesheet">
+<script type="text/javascript" src="./assets/jquery.mlens-1.0.min.js"></script> 
+<script type="text/javascript" src="./assets/jquery.js"></script>
 </head>
 
 <body>
 <div class="content">
-  <h1><strong>Improve Cross-Architecture Generalization on Dataset Distillation</strong></h1>
-  <p id="authors"></span><a href="https://github.com/Zhou-bl">BingLin Zhou</a	> <a href="https://github.com/zhongzero">Linhao Zhong</a> <a href="https://github.com/John-Steve-C">Wentao chen</a><br>
+  <h1><strong>OutDreamer: Video Outpainting with a Diffusion Transformer</strong></h1>
+  <p id="authors"></span>author1 author2 author3<br>
     <br>
-  <span style="font-size: 24px">Shanghai Jiao Tong University
+  <span style="font-size: 24px">Company/School
   </span></p>
   <br>
   <font size="+2">
         <p style="text-align: center;">
-          <a href="https://github.com/Distill-Generalization-Group/Distill-Generalization" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
+          <a href="https://github.com/zhongzero/OutDreamer-test" target="_blank">[Code]</a> &nbsp;&nbsp;&nbsp;&nbsp;
   </font>
 </div>
+
+<div class="content">
+  <div style="text-align: center;">
+    <video id="myVideo" width="800" height="600" controls style="max-width: 100%;">
+      <source src="https://github.com/user-attachments/assets/1de99952-eb16-4e9f-9703-12e962138e10" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+
+
 <div class="content">
   <h2 style="text-align:center;">Abstract</h2>
   <a name="fig1">
   <br>
-  <img class="summary-img" src="./files/overall.png" style="width:85%;" height="475"> <br>
+  <img class="summary-img" src="./assets/overview.jpg" style="width:85%;" height="475"> <br>
   </a>
-  <p>Dataset distillation, a pragmatic approach in machine learning, aims to create a smaller synthetic dataset from a larger existing dataset.
-    However, existing distillation methods primarily adopt a model-based paradigm, where the synthetic dataset inherits model-specific
-    biases, limiting its generalizability to alternative models. In response to this constraint, we propose a novel methodology termed
-    "model pool". This approach involves selecting models from a diverse model pool based on a specific probability distribution during
-    the data distillation process. Additionally, we integrate our model pool with the established knowledge distillation approach and apply
-    knowledge distillation to the test process of the distilled dataset. Our experimental results validate the effectiveness of the model pool
-    approach across a range of existing models while testing, demonstrating superior performance compared to existing methodologies.</p>
+  <p>Video outpainting is a challenging task that generates new video content by extending beyond the boundaries of an original input video, requiring both temporal and spatial consistency. Many state-of-the-art methods use latent diffusion models with U-Net backbones but still struggle to achieve high quality and adaptability in generated content. Diffusion transformers (DiTs) have emerged as a promising alternative because of their better scalability. However, commonly used control methods for video conditions in U-Net backbones, such as ControlNet, are rarely compatible with DiTs. To address this, we introduce OutDreamer, a DiT-based video outpainting framework with two main components: an efficient video control branch and a conditional outpainting branch. The efficient video control branch uses a light-weight module to extract guidance information, which is injected into the denoising model after the first DiT block, significantly improving training efficiency. The conditional outpainting branch receives condition information effectively, and employs a cross-video-clip refiner to iteratively generate missing content for long video outpainting, ensuring temporal consistency across video clips. Additionally, a color alignment loss is proposed to maintain color consistency both within and between frames. Extensive evaluations show that our zero-shot OutDreamer outperforms state-of-the-art zero-shot methods on widely recognized benchmarks.</p>
 </div>
+
 <div class="content">
-  <h2>Background</h2>
-  <p> As the structural complexity of neural network models continues to advance, 
-    deep learning has achieved remarkable success across diverse domains. However, 
-    the pursuit of enhanced performance in deeper networks needs a commensurate increase in the quantity of training data, 
-    resulting in a significant slowdown in training speed. Addressing this challenge, 
-    one viable approach involves reducing the size of the training dataset. Proposed by Wang et al., 
-    Dataset Distillation emerges as an effective method to achieve dataset size reduction while ensuring the efficacy of network 
-    training. The core objective of dataset distillation is the synthesis of a substantially smaller dataset derived from the 
-    original dataset, and a model trained on this synthesized dataset still exhibits robust performance on the original test dataset.</p>
-  <p>Intuitively, datasets generated through model-based methods show superior performance when tested on the architecture employed 
-    during the distillation process. However, a noticeable reduction in performance 
-    occurs when these datasets are assessed on alternative model architectures—a phenomenon we call as 
-    "performance reduction in cross-architecture." This raises the critical question of 
-    how to endow dataset distillation methods with the capability of cross-architecture generalization.  </p>
-  <p> 
-    In this study, we present a novel dataset distillation method designed to enhance cross-architecture generalization, 
-    building upon DC , a gradient matching-based approach. 
-    First, our method introduces the concept of "model pool", 
-    which is used to promote cross-architecture generalization ability and can be easily extensible to other 
-    existing model-based dataset distillation methods. Also, drawing inspiration from knowledge distillation, 
-    we leverage a similar strategy when deploying our distilled dataset on alternative model architectures. 
-    Experimental evaluations conducted on the CIFAR-10 dataset demonstrate that our proposed method outperforms 
-    the original DC method in cross-architecture generalization.
-  </p>
+  <h2 style="text-align:center;">Results</h2>
+  <video class="vid_generation" id="i11" autoplay controls muted loop height=300>
+    <source src="./assets/mp4-libx264/example-1-input.mp4" type="video/mp4">
+  </video>
 </div>
-<div class="content">
-  <h2>Approach</h2>
-  <p> We propose the concept of model pool. The model pool is a set of different models with different architectures. 
-    Every model in the model pool has its own probability to be chosen. 
-    In the original model-based method, we may reinitialize the parameters of this model many times in the 
-    total training process, noting that the model architecture doesn't change yet. In our method, 
-    the model we use and reinitialize each time may be different and it is chosen from the model pool with 
-    a given probability. In this way, we can make our distilled dataset more general as it is not only 
-    trained on a specific architecture of the model but trained on multiple architectures of models in the model pool.</p>
-  <p> Besides model pool method we mentioned above, we will perform knowledge distillation on the distilled dataset. 
-    In other words, both the teacher model and student model are trained on the distilled data, 
-    and then we try to minimize the difference (KL divergence) between the two models and their 
-    classification loss (cross-entropy loss). The teacher model is fixed as ConvNet while the student can be various. 
-    We can test the generalization ability of different student models by directing their knowledge to 
-    the fixed teacher model as closely as possible.</p>
-  <p> The overall view of our work can be seen in this <a href="#fig1">picture</a> </p>  
-  
-</div>
-<div class="content">
-  <h2>Results</h2>
-  <p>Ablation results for our method. We test the generalization ability of the distilled dataset on our model pool method and knowledge distillation method together and separately and compare them with the baseline method. 'ConvNet' is the main model in our model poolmethod, and we test the generalization ability of the distilled dataset on 'MLP', 'LeNet', 'AlexNet', 'VGG11', and 'ResNet18' respectively. We can see that our model pool method and knowledge distillation method together can cause a great improvement in the generalization ability of the distilled dataset compared with the baseline method.  </p>
-<img class="summary-img" src="./files/results_table.png" style="width:100%;">
-</div>
-<div class="content">
-  <h2>Setting of Model Pool</h2>
-  <p>Here are ablation results of different model pool method settings and we will show the reason why we use main model and similar other models in the experiment. We will show the result of three settings and the specific settings are mentioned in the table description. As we can see in the table, the third setting can achieve the best performance in all the cases and it’s largely better than the first setting and the second setting. Also, we will say some accuracies are equal to 10 and even lower than 10 in the first setting and the second setting. That is because the model pool is too various and the parameters are divergent in the training process. That’s why we use the third setting, which has a main model and similar other models, to experiment with the main part of this paper.</p>
-<img class="summary-img" src="./files/model_pool_result.png" style="width:100%;">
-</div>
-<div class="content" id="acknowledgements">
-  <p><strong>Acknowledgements</strong>:
-    We thank Cewu Lu and Yonglu Li for their patient guidance and help.
-  </p>
-</div>
+
 </body>
 </html>
